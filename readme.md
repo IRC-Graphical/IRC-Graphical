@@ -1,6 +1,4 @@
-i wonder how this will turn out haha
-
----
+# Nexus. A connection point between networks and people.
 
 ### 1. **Application Flow**
 - **Startup**: Load saved servers from JSON → Create GTK interface → Enter event loop  
