@@ -1,5 +1,5 @@
-#ifndef IRC_CLIENT_H
-#define IRC_CLIENT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <gtk/gtk.h>
 #include <pthread.h>
@@ -68,10 +68,10 @@ typedef struct {
     
     pthread_mutex_t gui_mutex;
     bool running;
-} irc_client_t;
+} client_t;
 
 // Global client instance
-extern irc_client_t client;
+extern client_t client;
 
 // Function prototypes
 void init_client(void);
