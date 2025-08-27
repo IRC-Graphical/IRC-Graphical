@@ -3,8 +3,18 @@
 
 #include <gtk/gtk.h>
 #include <pthread.h>
-#include <netinet/in.h>
 #include <stdbool.h>
+
+#ifdef _WIN32
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+    typedef int socklen_t;
+#else
+    #include <netinet/in.h>
+    #include <sys/socket.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+#endif
 
 #define MAX_MSG_LENGTH 512
 #define MAX_NICK_LENGTH 32
