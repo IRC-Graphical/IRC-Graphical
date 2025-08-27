@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <errno.h>
-#include "irc_client.h"
+#include "client.h"
 
 typedef struct {
     int server_idx;
