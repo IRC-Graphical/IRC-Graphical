@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "irc_client.h"
+#include "client.h"
 
 void add_server_dialog(void) {
     GtkWidget *dialog, *content_area, *grid;
