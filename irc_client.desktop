@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=IRC Client
+GenericName=IRC Client
+Comment=Modern Discord-like IRC client with GTK+ interface
+Exec=client
+Icon=irc-client
+Terminal=false
+Type=Application
+Categories=Network;Chat;GTK;
+StartupNotify=true
+Keywords=IRC;Chat;Network;Communication;
