@@ -1,4 +1,13 @@
-# A connection point between networks and people.
+# Nexus IRC
+#### A connection point between networks and people.
+
+---
+
+## Screen~Shots
+
+<img width="1199" height="728" alt="image" src="https://github.com/user-attachments/assets/f929729e-e642-4ed0-8682-7a134901467b" />
+<img width="1179" height="579" alt="image" src="https://github.com/user-attachments/assets/59275701-c841-41dd-9b16-52b4c831193a" />
+
 
 ### 1. **Application Flow**
 - **Startup**: Load saved servers from JSON → Create GTK interface → Enter event loop  
