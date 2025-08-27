@@ -3,7 +3,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <json-c/json.h>
-#include "irc_client.h"
+#include "client.h"
 
 void load_config(void) {
     FILE *file = fopen(CONFIG_FILE, "r");
