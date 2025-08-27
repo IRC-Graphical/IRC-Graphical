@@ -10,9 +10,9 @@
 #include <stdarg.h>
 #include <errno.h>
 #include <json-c/json.h>
-#include "irc_client.h"
+#include "client.h"
 
-irc_client_t client;
+client_t client;
 
 void init_client(void) {
     memset(&client, 0, sizeof(client));
