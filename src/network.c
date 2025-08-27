@@ -1,12 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netdb.h>
 #include <errno.h>
+
+#ifdef _WIN32
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+    // Define closesocket equivalent
+    #define close closesocket
+#else
+    #include <unistd.h>
+    #include <sys/socket.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+#endif
+
 #include "client.h"
+
+#ifdef _WIN32
+// Windows doesn't have strtok_r, but has strtok_s
+#define strtok_r strtok_s
+#endif
 
 typedef struct {
     int server_idx;
@@ -102,7 +116,12 @@ void send_irc_command(server_info_t *server, const char *cmd) {
     
     ssize_t sent = send(server->sockfd, cmd, strlen(cmd), 0);
     if (sent < 0) {
+#ifdef _WIN32
+        int error = WSAGetLastError();
+        log_message("ERROR", "Failed to send command: WSA error %d", error);
+#else
         log_message("ERROR", "Failed to send command: %s", strerror(errno));
+#endif
         server->state = CONN_ERROR;
     } else {
         log_message("DEBUG", "Sent: %s", cmd);
@@ -275,14 +294,19 @@ void* network_thread_func(void* arg) {
     server_info_t *server = &client.servers[server_idx];
     char buffer[MAX_MSG_LENGTH];
     char line_buffer[MAX_MSG_LENGTH * 2]; // For handling partial lines
-    int line_pos = 0;
+    size_t line_pos = 0;
     
     while (client.running && server->state == CONN_CONNECTED) {
         ssize_t bytes_received = recv(server->sockfd, buffer, sizeof(buffer) - 1, 0);
         
         if (bytes_received <= 0) {
             if (bytes_received < 0) {
+#ifdef _WIN32
+                int error = WSAGetLastError();
+                log_message("ERROR", "recv() error: WSA error %d", error);
+#else
                 log_message("ERROR", "recv() error: %s", strerror(errno));
+#endif
             } else {
                 log_message("INFO", "Server closed connection");
             }
@@ -293,7 +317,7 @@ void* network_thread_func(void* arg) {
         buffer[bytes_received] = '\0';
         
         // Handle partial lines
-        for (int i = 0; i < bytes_received; i++) {
+        for (ssize_t i = 0; i < bytes_received; i++) {
             if (buffer[i] == '\n') {
                 line_buffer[line_pos] = '\0';
                 if (line_pos > 0 && line_buffer[line_pos - 1] == '\r') {
