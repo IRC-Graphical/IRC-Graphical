@@ -2,19 +2,36 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netdb.h>
 #include <signal.h>
 #include <time.h>
 #include <stdarg.h>
 #include <errno.h>
 #include <json-c/json.h>
+
+#ifdef _WIN32
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+#else
+    #include <sys/socket.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+#endif
+
 #include "client.h"
 
 client_t client;
 
 void init_client(void) {
+#ifdef _WIN32
+    // Initialize Winsock on Windows
+    WSADATA wsaData;
+    int result = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (result != 0) {
+        log_message("ERROR", "WSAStartup failed: %d", result);
+        exit(1);
+    }
+#endif
+
     memset(&client, 0, sizeof(client));
     client.active_server = -1;
     client.running = true;
@@ -30,6 +47,10 @@ void cleanup_client(void) {
     
     pthread_mutex_destroy(&client.gui_mutex);
     save_config();
+    
+#ifdef _WIN32
+    WSACleanup();
+#endif
 }
 
 char* get_timestamp(void) {
@@ -85,7 +106,7 @@ void on_window_destroy(GtkWidget *widget, gpointer data) {
 }
 
 void create_main_window(void) {
-    GtkWidget *vbox, *hbox, *toolbar, *scrolled;
+    GtkWidget *vbox, *toolbar, *scrolled;
     GtkWidget *add_server_btn, *connect_btn;
     GtkTreeStore *server_store;
     GtkCellRenderer *renderer;
