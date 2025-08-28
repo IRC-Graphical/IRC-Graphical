@@ -1,13 +1,7 @@
 # Nexus IRC
-#### A connection point between networks and people.
 
----
-
-## Screen~Shots
-
-<img width="1199" height="728" alt="image" src="https://github.com/user-attachments/assets/f929729e-e642-4ed0-8682-7a134901467b" />
-<img width="1179" height="579" alt="image" src="https://github.com/user-attachments/assets/59275701-c841-41dd-9b16-52b4c831193a" />
-
+| Client ![image1](https://github.com/user-attachments/assets/f929729e-e642-4ed0-8682-7a134901467b) | Compilation ![image2](https://github.com/user-attachments/assets/59275701-c841-41dd-9b16-52b4c831193a) |
+|:-------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
 
 ### 1. **Application Flow**
 - **Startup**: Load saved servers from JSON → Create GTK interface → Enter event loop  
@@ -181,13 +175,18 @@ The application uses a multi-threaded architecture:
 - No notification system integration
 - No message logging to files
 
-## Development Roadmap
+## Roadmap
 
-- [ ] SSL/TLS connections
-- [ ] SASL authentication  
-- [ ] Desktop notifications
-- [ ] Message logging
-- [ ] Improved Windows installer
-- [ ] Plugin system
-- [ ] Custom themes
-- [ ] Voice/video calls (future)
+Goal (Client) | Progress
+---|---
+Improved Windows installer | Done
+Custom themes | WIP
+Plugin system | WIP
+
+Goal (System) | Progress
+---|---
+SSL/TLS connections | N/A
+SASL authentication | N/A
+Desktop notifications | N/A
+Message logging | N/A
+Voice/video calls (future) | N/A
